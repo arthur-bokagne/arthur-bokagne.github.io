@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Portfolio d'Arthur Bokagne, étudiant en MSc 2 Data & IA à l'ECE Paris : Data Engineering, Data Analyse, IA. Recherche alternance et stage.">
+<style>:root{color-scheme:light} body{margin:0} img{max-width:100%}</style>
+<title>Arthur Bokagne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : en-tête « fiche » avec photo + journal de pipeline, puis sections en colonne étroite (étiquette à gauche, contenu à droite) */
+:root {
+  --bg: #F5F7FA;
+  --surface: #FFFFFF;
+  --ink: #0E1A2B;
+  --muted: #566176;
+  --line: #DCE2EB;
+  --accent: #2160C4;
+  --accent-soft: #E3ECFA;
+  --ok: #17803D;
+  --night: #0E1A2B;
+  --night-fg: #E8EDF5;
+  --night-muted: #8FA0B8;
+  --display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --body: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0B1320; --surface: #111C2D; --ink: #E8EDF5; --muted: #98A6BB; --line: #22314A;
+  --accent: #6FA4F5; --accent-soft: #16294A; --ok: #4CC47A; --night: #070D17; --night-fg: #E8EDF5; --night-muted: #8FA0B8;
+  color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0B1320; --surface: #111C2D; --ink: #E8EDF5; --muted: #98A6BB; --line: #22314A;
+  --accent: #6FA4F5; --accent-soft: #16294A; --ok: #4CC47A; --night: #070D17; --night-fg: #E8EDF5; --night-muted: #8FA0B8;
+  color-scheme: dark }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* Navigation */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
+.brand { font-family: var(--display); font-weight: 800; font-size: 18px; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+.nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; font-size: 14px; }
+.nav ul a { color: var(--muted); text-decoration: none; font-weight: 500; }
+.nav ul a:hover { color: var(--ink); }
+
+/* En-tête */
+.hero { background: var(--night); color: var(--night-fg); }
+.hero .wrap { display: grid; grid-template-columns: 1.25fr 1fr; gap: 48px; padding-block: 64px 56px; align-items: center; }
+.id { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center; }
+.photo { width: 148px; height: 148px; border-radius: 50%; overflow: hidden; border: 3px solid #2F7DE1; flex: none; }
+.photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.eyebrow { font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--night-muted); margin: 0 0 8px; }
+h1 { font-family: var(--display); font-weight: 800; font-size: clamp(40px, 6vw, 64px); line-height: 0.98; letter-spacing: -0.025em; margin: 0; text-wrap: balance; }
+.role { font-family: var(--display); font-weight: 600; font-size: clamp(18px, 2.2vw, 22px); color: #8FB8F2; margin: 12px 0 0; }
+.pitch { grid-column: 1 / -1; max-width: 58ch; color: #C9D3E1; margin: 6px 0 0; font-size: 16.5px; }
+.chips { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 10px; }
+.chip { display: inline-flex; align-items: center; gap: 8px; border: 1px solid #2A3B57; border-radius: 999px; padding: 6px 14px; font-size: 14px; color: var(--night-fg); }
+.chip i { width: 8px; height: 8px; border-radius: 50%; background: #4CC47A; box-shadow: 0 0 0 3px rgba(76,196,122,.18); }
+.actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; font: 600 14.5px var(--body); padding: 10px 18px; border-radius: 8px; text-decoration: none; cursor: pointer; border: 1px solid transparent; }
+.btn.primary { background: #2F7DE1; color: #fff; }
+.btn.primary:hover { background: #2569C2; }
+.btn.ghost { background: transparent; color: var(--night-fg); border-color: #2A3B57; }
+.btn.ghost:hover { border-color: #8FB8F2; }
+
+/* Journal de pipeline */
+.log { background: #0A1422; border: 1px solid #1F2E46; border-radius: 12px; font-family: var(--mono); font-size: 13px; line-height: 1.75; overflow: hidden; min-width: 0; }
+.log header { display: flex; justify-content: space-between; gap: 12px; padding: 10px 16px; border-bottom: 1px solid #1F2E46; color: var(--night-muted); font-size: 12px; }
+.log ol { list-style: none; margin: 0; padding: 14px 16px 16px; }
+.log li { display: grid; grid-template-columns: 88px 1fr auto; gap: 10px; color: #C9D3E1; }
+.log .k { color: #8FB8F2; }
+.log .s { color: #4CC47A; }
+.log .sum { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #1F2E46; color: var(--night-muted); display: block; }
+
+/* Sections */
+section.block { padding-block: 72px 8px; }
+.row { display: grid; grid-template-columns: 200px 1fr; gap: 40px; }
+.row > * { min-width: 0; }
+h2 { font-family: var(--display); font-weight: 800; font-size: 28px; letter-spacing: -0.015em; margin: 0; line-height: 1.1; }
+.row .lead { color: var(--muted); font-size: 14.5px; margin: 10px 0 0; }
+
+/* Projets */
+.projects { display: grid; gap: 20px; }
+.proj { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 26px 28px; display: grid; gap: 14px; }
+.proj .top { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.proj h3 { font-family: var(--display); font-weight: 600; font-size: 22px; margin: 0; letter-spacing: -0.01em; }
+.tag { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.proj p { margin: 0; max-width: 66ch; }
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.facts div { background: var(--surface); padding: 12px 14px; }
+.facts b { display: block; font-family: var(--display); font-weight: 800; font-size: 22px; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.facts span { font-size: 13px; color: var(--muted); }
+.stack { display: flex; flex-wrap: wrap; gap: 6px; }
+.stack span { font-family: var(--mono); font-size: 12.5px; background: var(--accent-soft); color: var(--accent); border-radius: 6px; padding: 2px 9px; }
+.role-note { font-size: 14.5px; color: var(--muted); border-left: 2px solid var(--accent); padding-left: 12px; }
+.proj .link { font-weight: 600; font-size: 14.5px; }
+.flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-family: var(--mono); font-size: 13px; }
+.flow span { border: 1px solid var(--line); border-radius: 6px; padding: 3px 10px; background: var(--bg); }
+.flow em { color: var(--muted); font-style: normal; }
+.other { font-size: 14.5px; color: var(--muted); }
+
+/* Expérience */
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 28px; }
+.timeline li { display: grid; grid-template-columns: 150px 1fr; gap: 20px; }
+.timeline li > * { min-width: 0; }
+.when { font-family: var(--mono); font-size: 13px; color: var(--muted); padding-top: 3px; font-variant-numeric: tabular-nums; }
+.timeline h3 { font-size: 17px; font-weight: 600; margin: 0; }
+.org { color: var(--accent); font-weight: 500; font-size: 15px; }
+.org small { color: var(--muted); font-weight: 400; font-size: 14px; }
+.timeline ul { margin: 8px 0 0; padding-left: 18px; color: var(--ink); }
+.timeline ul li { display: list-item; font-size: 15px; margin-bottom: 2px; }
+
+/* Compétences */
+.skills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+.skills div { padding: 16px 0; border-bottom: 1px solid var(--line); display: grid; gap: 4px; }
+.skills div:nth-child(odd) { padding-right: 24px; }
+.skills h4 { margin: 0; font-family: var(--mono); font-weight: 500; font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.skills p { margin: 0; font-size: 15.5px; }
+
+/* Contact */
+.contact { background: var(--night); color: var(--night-fg); margin-top: 80px; }
+.contact .wrap { padding-block: 56px; display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: end; }
+.contact h2 { font-size: clamp(30px, 4vw, 42px); }
+.contact p { color: #C9D3E1; margin: 10px 0 0; max-width: 52ch; }
+.lines { display: grid; gap: 10px; font-family: var(--mono); font-size: 14.5px; }
+.lines div { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.lines .k { color: var(--night-muted); width: 74px; }
+.lines a { color: var(--night-fg); }
+.copy { font: 500 12px var(--mono); background: transparent; color: #8FB8F2; border: 1px solid #2A3B57; border-radius: 6px; padding: 3px 8px; cursor: pointer; }
+.copy:hover { border-color: #8FB8F2; }
+footer { padding-block: 22px 32px; font-size: 13px; color: var(--muted); }
+
+@media (max-width: 860px) {
+  .hero .wrap { grid-template-columns: 1fr; padding-block: 44px; gap: 32px; }
+  .row { grid-template-columns: 1fr; gap: 20px; }
+  .contact .wrap { grid-template-columns: 1fr; }
+  .nav ul { display: none; }
+}
+@media (max-width: 560px) {
+  .id { grid-template-columns: 1fr; gap: 18px; }
+  .photo { width: 112px; height: 112px; }
+  .facts { grid-template-columns: 1fr; }
+  .timeline li { grid-template-columns: 1fr; gap: 4px; }
+  .skills { grid-template-columns: 1fr; }
+  .skills div:nth-child(odd) { padding-right: 0; }
+  .proj { padding: 20px; }
+  .log li { grid-template-columns: 72px 1fr auto; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .log li { animation: step .5s ease-out both; }
+  .log li:nth-child(2) { animation-delay: .12s; } .log li:nth-child(3) { animation-delay: .24s; } .log li:nth-child(4) { animation-delay: .36s; }
+  @keyframes step { from { transform: translateX(-6px); } to { transform: none; } }
+}
+</style>
+</head>
+<body>
+
+
+<nav class="nav" aria-label="Navigation principale">
+  <div class="wrap">
+    <a class="brand" href="#top">Arthur Bokagne</a>
+    <ul>
+      <li><a href="#projets">Projets</a></li>
+      <li><a href="#experience">Expérience</a></li>
+      <li><a href="#competences">Compétences</a></li>
+      <li><a href="#formation">Formation</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="id">
+      <div class="photo"><img src="photo.jpg" alt="Portrait d'Arthur Bokagne"></div>
+      <div>
+        <p class="eyebrow">MSc 2 Data &amp; IA · ECE Paris</p>
+        <h1>Arthur Bokagne</h1>
+        <p class="role">Data Engineer · Data Analyst · Data &amp; IA</p>
+      </div>
+      <p class="pitch">Je construis des pipelines de données propres et fiables, de l'extraction jusqu'à la base, et je les rends lisibles avec des tableaux de bord. Python, SQL, PostgreSQL, Docker, et le Machine Learning vu en Master.</p>
+      <div class="chips">
+        <span class="chip"><i></i>Alternance · oct. 2026 – sept. 2027 · disponible</span>
+        <span class="chip"><i></i>Stage de fin d'études · 4 à 6 mois dès avril 2027</span>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="#contact">Me contacter</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/gilles-arthur-bokagne-kemogne-0b2502389" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn ghost" href="https://github.com/arthur-bokagne" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+
+    <div class="log" aria-label="Résumé du pipeline ETL">
+      <header><span>pipeline_etl.py</span><span>run #1 · terminé</span></header>
+      <ol>
+        <li><span class="k">extract</span><span>CSV + API REST</span><span class="s">ok</span></li>
+        <li><span class="k">clean</span><span>nettoyage, normalisation</span><span class="s">ok</span></li>
+        <li><span class="k">transform</span><span>Pandas, NumPy</span><span class="s">ok</span></li>
+        <li><span class="k">load</span><span>PostgreSQL, schéma 3NF</span><span class="s">ok</span></li>
+      </ol>
+      <span class="sum" style="padding: 0 16px 14px;">15 000+ lignes traitées · contrôles qualité passés</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="block" id="projets">
+    <div class="wrap row">
+      <div>
+        <h2>Projets</h2>
+        <p class="lead">Données, simulation et industrialisation. Le code est sur GitHub.</p>
+      </div>
+      <div class="projects">
+
+        <article class="proj">
+          <div class="top"><h3>Pipeline ETL automatisé</h3><span class="tag">Projet personnel · Data Engineering</span></div>
+          <p>Un pipeline qui récupère des fichiers CSV, les nettoie et les normalise avec Pandas et NumPy, puis les charge dans une base PostgreSQL modélisée en MERISE/UML. Des requêtes SQL et des index servent ensuite à contrôler la qualité des données.</p>
+          <div class="facts">
+            <div><b>15 000+</b><span>lignes CSV traitées</span></div>
+            <div><b>3NF</b><span>niveau de normalisation</span></div>
+            <div><b>4 étapes</b><span>extract, clean, transform, load</span></div>
+          </div>
+          <div class="stack"><span>Python</span><span>Pandas</span><span>NumPy</span><span>PostgreSQL</span><span>SQL</span><span>MERISE/UML</span></div>
+        </article>
+
+        <article class="proj">
+          <div class="top"><h3>2ASICYA – Cyberattaques sur onduleurs solaires</h3><span class="tag">Projet de groupe · ECE Paris · mars 2026</span></div>
+          <p>Simulation de l'impact de cyberattaques coordonnées sur les onduleurs photovoltaïques d'un réseau électrique français. Le réseau est modélisé avec pandapower, la simulation suit les courbes de charge au pas de 15 minutes, et chaque scénario reçoit un score de risque (impact × probabilité).</p>
+          <div class="facts">
+            <div><b>S1 → S5</b><span>scénarios, de 0,1 à 5 GW coupés</span></div>
+            <div><b>33 bus</b><span>et 37 lignes dans le réseau</span></div>
+            <div><b>15 min</b><span>pas des séries temporelles</span></div>
+          </div>
+          <p class="role-note">Mon rôle : la préparation du dashboard et des visualisations qui résument les résultats (comparaison des scénarios, indicateurs de risque, impact sur la fréquence).</p>
+          <div class="stack"><span>Python</span><span>pandapower</span><span>Pandas</span><span>séries temporelles</span><span>dashboard</span><span>Git</span></div>
+          <a class="link" href="https://github.com/Dauemi/inverter-cyberattack-simulation" target="_blank" rel="noopener">Voir le dépôt sur GitHub</a>
+        </article>
+
+        <article class="proj">
+          <div class="top"><h3>FlaskApp – Pipeline CI/CD conteneurisé</h3><span class="tag">Projet personnel · novembre 2025</span></div>
+          <p>Une application Flask testée et déployée automatiquement. À chaque push, GitHub Actions lance les tests ; l'image Docker n'est construite et publiée sur Docker Hub que si les tests passent. En cas d'échec, une alerte part par e-mail.</p>
+          <div class="flow" aria-label="Étapes du pipeline CI/CD">
+            <span>git push</span><em>→</em><span>pytest</span><em>→</em><span>docker build</span><em>→</em><span>push Docker Hub</span>
+          </div>
+          <div class="stack"><span>Python</span><span>Flask</span><span>pytest</span><span>Docker</span><span>GitHub Actions</span></div>
+          <a class="link" href="https://github.com/arthur-bokagne/FlaskApp" target="_blank" rel="noopener">Voir le dépôt sur GitHub</a>
+        </article>
+
+        <p class="other">Autre projet : <a href="https://github.com/arthur-bokagne/SpaceGame" target="_blank" rel="noopener">SpaceGame</a>, un jeu spatial 3D réalisé en binôme avec le moteur Godot (2025).</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="experience">
+    <div class="wrap row">
+      <div>
+        <h2>Expérience</h2>
+        <p class="lead">Web, données et bases de données, en France et au Cameroun.</p>
+      </div>
+      <ol class="timeline">
+        <li>
+          <div class="when">Depuis mai 2026</div>
+          <div>
+            <h3>Assistant Web – Maintenance &amp; Analyse du site</h3>
+            <div class="org">Moonlight <small>· Paris</small></div>
+            <ul>
+              <li>Maintenance, mise à jour et suivi du bon fonctionnement du site web</li>
+              <li>Analyse des statistiques et des données d'activité du site</li>
+              <li>Suivi des performances et identification des points à améliorer</li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="when">Sept. 2024 – août 2025</div>
+          <div>
+            <h3>Data Engineer Junior</h3>
+            <div class="org">ED Association <small>· Douala, Cameroun</small></div>
+            <ul>
+              <li>Extraction et intégration de données depuis des fichiers CSV et des API REST</li>
+              <li>Modélisation de bases relationnelles (3NF), conception et optimisation de requêtes SQL</li>
+              <li>Versionnement et travail en équipe avec Git</li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="when">Avr. 2022 – mars 2023</div>
+          <div>
+            <h3>Développeur Web Freelance</h3>
+            <div class="org">Precome Engineering SARL <small>· Douala, Cameroun</small></div>
+            <ul>
+              <li>Développement web avec une base SQL de plus de 20 tables, optimisation des requêtes</li>
+              <li>Automatisation de tâches en Python</li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block" id="competences">
+    <div class="wrap row">
+      <div>
+        <h2>Compétences</h2>
+        <p class="lead">Ce que j'utilise au quotidien.</p>
+      </div>
+      <div class="skills">
+        <div><h4>Langages</h4><p>Python, SQL</p></div>
+        <div><h4>Data Engineering</h4><p>ETL, Pandas, NumPy, API REST, qualité des données</p></div>
+        <div><h4>Bases de données</h4><p>PostgreSQL, MySQL, MERISE/UML, normalisation 3NF, indexation</p></div>
+        <div><h4>Machine Learning</h4><p>Scikit-Learn, régression, classification, Deep Learning, Big Data</p></div>
+        <div><h4>Outils &amp; DevOps</h4><p>Git, GitHub Actions, Docker, pytest, Linux, Jupyter</p></div>
+        <div><h4>Langues</h4><p>Français (langue maternelle), anglais C1</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="formation">
+    <div class="wrap row">
+      <div>
+        <h2>Formation</h2>
+        <p class="lead">ECE Paris, école d'ingénieurs.</p>
+      </div>
+      <ol class="timeline">
+        <li>
+          <div class="when">Oct. 2026 – sept. 2027</div>
+          <div><h3>MSc 2 Data &amp; IA</h3><div class="org">ECE Paris <small>· École d'ingénieurs</small></div></div>
+        </li>
+        <li>
+          <div class="when">Sept. 2025 – avr. 2026</div>
+          <div>
+            <h3>Master 1 Informatique – Data &amp; IA</h3>
+            <div class="org">ECE Paris <small>· École d'ingénieurs</small></div>
+            <ul><li>Machine Learning (régression, classification), Deep Learning, Big Data, Scikit-Learn, architectures de données et Cloud</li></ul>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div>
+      <h2>Travaillons ensemble</h2>
+      <p>Je cherche une alternance dès maintenant, ou un stage de fin d'études à partir d'avril 2027, en Île-de-France. Écrivez-moi, je réponds rapidement.</p>
+    </div>
+    <div class="lines">
+      <div><span class="k">E-mail</span><span id="mail">arthurbokagne@gmail.com</span><button class="copy" type="button" id="copy-mail" data-target="mail">Copier</button></div>
+      <div><span class="k">Tél.</span><span id="tel">07 65 79 08 27</span><button class="copy" type="button" id="copy-tel" data-target="tel">Copier</button></div>
+      <div><span class="k">LinkedIn</span><a href="https://www.linkedin.com/in/gilles-arthur-bokagne-kemogne-0b2502389" target="_blank" rel="noopener">gilles-arthur-bokagne-kemogne</a></div>
+      <div><span class="k">GitHub</span><a href="https://github.com/arthur-bokagne" target="_blank" rel="noopener">arthur-bokagne</a></div>
+      <div><span class="k">Lieu</span><span>Malakoff (92), Île-de-France</span></div>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">© 2026 Arthur Bokagne · Data Engineering &amp; IA</footer>
+
+<script>
+document.querySelectorAll('.copy').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var el = document.getElementById(b.dataset.target);
+    var text = el.textContent.trim();
+    var done = function () { b.textContent = 'Copié'; setTimeout(function () { b.textContent = 'Copier'; }, 1600); };
+    var fallback = function () {
+      var r = document.createRange(); r.selectNodeContents(el);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      b.textContent = 'Sélectionné';
+      setTimeout(function () { b.textContent = 'Copier'; }, 1600);
+    };
+    try {
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } catch (e) { fallback(); }
+  });
+});
+</script>
+
+</body>
+</html>
